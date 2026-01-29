@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Is Mike Going?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", "Arial Rounded MT Bold", system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(#87ceeb, #ffffff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 18px 28px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      background: #ff4d4d;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #c0392b;
+    }
+
+    button:active {
+      transform: translateY(6px);
+      box-shadow: none;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    #loading p {
+      font-size: 1.3rem;
+      margin: 10px 0;
+    }
+
+    #result h1 {
+      font-size: 3rem;
+      color: #2ecc71;
+      text-shadow: 2px 2px #000;
+    }
+
+    /* Snowflakes */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      font-size: 1.2rem;
+      animation: fall linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+      }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 14px;
+      animation: confetti-fall 2.5s ease-out forwards;
+    }
+
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(120vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="start" class="screen active">
+    <h1>❄️ Is Mike going on the Utah ski trip? ❄️</h1>
+    <button onclick="startReveal()">CLICK TO FIND OUT</button>
+  </div>
+
+  <div id="loading" class="screen">
+    <p>Checking snow conditions…</p>
+    <p>Calibrating stoke levels…</p>
+    <p>Consulting the mountain gods…</p>
+  </div>
+
+  <div id="result" class="screen">
+    <h1>YES! Mike is going 🏂</h1>
+  </div>
+
+  <script>
+    function startReveal() {
+      document.getElementById("start").classList.remove("active");
+      document.getElementById("loading").classList.add("active");
+
+      setTimeout(() => {
+        document.getElementById("loading").classList.remove("active");
+        document.getElementById("result").classList.add("active");
+        launchConfetti();
+        startSnow();
+      }, 3000);
+    }
+
+    function launchConfetti() {
+      for (let i = 0; i < 200; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+          "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+        confetti.style.animationDuration = 2 + Math.random() * 1.5 + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+    function startSnow() {
+      setInterval(() => {
+        const snowflake = document.createElement("div");
+        snowflake.classList.add("snowflake");
+        snowflake.innerHTML = "❄️";
+        snowflake.style.left = Math.random() * 100 + "vw";
+        snowflake.style.animationDuration = 4 + Math.random() * 6 + "s";
+        snowflake.style.fontSize = 12 + Math.random() * 18 + "px";
+        document.body.appendChild(snowflake);
+
+        setTimeout(() => snowflake.remove(), 10000);
+      }, 200);
+    }
+  </script>
+</body>
+</html>
